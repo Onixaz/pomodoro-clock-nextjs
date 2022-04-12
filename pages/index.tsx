@@ -69,7 +69,7 @@ const Home: NextPage<IndexPageProps> = () => {
           <Styled.Switch type="checkbox" readOnly checked={!sessionActive} onClick={handleSwitch}></Styled.Switch>
           <Styled.SwitchLabel htmlFor=""><Styled.SwitchSpan>Session</Styled.SwitchSpan></Styled.SwitchLabel>
         </Styled.SwitchWrapper>
-        <Styled.Github href="">
+        <Styled.Github href="https://github.com/Onixaz/pomodoro-clock-nextjs">
           Source code on Github
         </Styled.Github>
       </Styled.Container>
