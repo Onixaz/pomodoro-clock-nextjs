@@ -6,10 +6,7 @@ interface BeepProps {
 }
 
 const Beep: FC<BeepProps> = ({ audioBeep }) => {
-
-
     return (
-
         <audio
             id="beep"
             preload="auto"
