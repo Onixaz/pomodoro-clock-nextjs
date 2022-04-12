@@ -1,65 +1,82 @@
-import Head from 'next/head'
-import Image from 'next/image'
+import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
+import * as Styled from '../styles/utils';
 
-import styles from '@/pages/index.module.css'
+import Adjusters from '../components/Adjusters';
+import Clock from '../components/Clock';
+import { NextPage } from 'next';
+import Beep from '@/components/Beep';
 
-export default function Home() {
+interface IndexPageProps { }
+
+const Home: NextPage<IndexPageProps> = () => {
+  const interval = useRef<any>(null);
+  const audioBeep = useRef<any>(null);
+  const [sessionActive, setSessionActive] = useState(true);
+  const [sessionTimer, setSessionTimer] = useState(1500);
+  const [breakTimer, setBreakTimer] = useState(300);
+
+
+  const handleSwitch = () => {
+    setSessionActive((prevState) => !prevState);
+  }
+
+  const playBeep = () => {
+    audioBeep.current.play()
+  }
+
+  const stopBeep = () => {
+    audioBeep.current.pause();
+    audioBeep.current.currentTime = 0;
+  }
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <>
+      <Styled.Container>
+        <Beep audioBeep={audioBeep} />
 
-      <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <Styled.AdjustersWrapper>
+          <Adjusters
+            setSessionTimer={setSessionTimer}
+            setBreakTimer={setBreakTimer}
+            value={sessionTimer}
+            label='Session'
+            labelId='session-label'
+            lengthId='session-length'
+            decId='session-decrement'
+            incId='session-increment' />
+          <Adjusters
+            setSessionTimer={setSessionTimer}
+            setBreakTimer={setBreakTimer}
+            value={breakTimer}
+            label='Break'
+            labelId="break-label"
+            lengthId='break-length'
+            decId='break-decrement'
+            incId='break-increment' />
+        </Styled.AdjustersWrapper>
+        <Clock
+          interval={interval}
+          setSessionActive={setSessionActive}
+          setBreakTimer={setBreakTimer}
+          setSessionTimer={setSessionTimer}
+          sessionActive={sessionActive}
+          sessionTimer={sessionTimer}
+          breakTimer={breakTimer}
+          stopBeep={stopBeep}
+          playBeep={playBeep}
+          handleSwitch={handleSwitch} />
 
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a href="https://vercel.com/new" className={styles.card}>
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
-    </div>
+        <Styled.SwitchWrapper>
+          <Styled.Switch type="checkbox" readOnly checked={!sessionActive} onClick={handleSwitch}></Styled.Switch>
+          <Styled.SwitchLabel htmlFor=""><Styled.SwitchSpan>Session</Styled.SwitchSpan></Styled.SwitchLabel>
+        </Styled.SwitchWrapper>
+        <Styled.Github href="">
+          Source code on Github
+        </Styled.Github>
+      </Styled.Container>
+    </>
   )
 }
+
+export default Home
+
