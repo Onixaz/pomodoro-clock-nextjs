@@ -1,9 +1,8 @@
-import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { NextPage } from 'next';
 import * as Styled from '../styles/utils';
-
 import Adjusters from '../components/Adjusters';
 import Clock from '../components/Clock';
-import { NextPage } from 'next';
 import Beep from '@/components/Beep';
 
 interface IndexPageProps { }
@@ -32,8 +31,8 @@ const Home: NextPage<IndexPageProps> = () => {
   return (
     <>
       <Styled.Container>
-        <Beep audioBeep={audioBeep} />
 
+        <Beep audioBeep={audioBeep} />
         <Styled.AdjustersWrapper>
           <Adjusters
             setSessionTimer={setSessionTimer}
