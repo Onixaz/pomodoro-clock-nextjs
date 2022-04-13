@@ -36,8 +36,8 @@ export default class MyDocument extends Document {
                 <body>
                     <Main />
                     <NextScript />
-                    <script async src="bundle.js"></script>
-                    <script async src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+                    <script defer src="bundle.js"></script>
+                    <script defer src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
                 </body>
             </Html>
         )
